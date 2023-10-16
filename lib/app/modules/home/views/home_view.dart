@@ -1,6 +1,14 @@
+import 'package:absen/app/modules/account/views/account_appbar.dart';
+import 'package:absen/app/modules/account/views/account_view.dart';
 import 'package:absen/app/modules/home/views/home_appbar.dart';
 import 'package:absen/app/modules/home/views/home_body.dart';
 import 'package:absen/app/modules/login/controllers/login_controller.dart';
+import 'package:absen/app/modules/notif/views/notif_appbar.dart';
+import 'package:absen/app/modules/notif/views/notif_view.dart';
+import 'package:absen/app/modules/presence/views/presence_appbar.dart';
+import 'package:absen/app/modules/presence/views/presence_view.dart';
+import 'package:absen/app/modules/task/views/task_appbar.dart';
+import 'package:absen/app/modules/task/views/task_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
@@ -14,69 +22,80 @@ class HomeView extends GetView<HomeController> {
 
     final appbars = [
       const HomeAppbar(),
+      const PresenceAppbar(),
+      const TaskAppbar(),
+      const NotifAppbar(),
+      const AccountAppbar(),
     ];
 
     final bodys = [
       const HomeBody(),
+      const PresenceView(),
+      const TaskView(),
+      const NotifView(),
+      const AccountView(),
     ];
 
-    return Scaffold(
-      appBar: appbars[0],
-      body: bodys[0],
-      bottomNavigationBar: BottomNavigationBar(
+    return Obx(
+      () => Scaffold(
+        appBar: appbars[homeC.pressedButton.value] as PreferredSizeWidget,
+        body: bodys[homeC.pressedButton.value],
+        bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.amber,
           unselectedItemColor: Colors.grey,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Obx(
-                () => Icon(
-                  (homeC.pressedButton.value == 0)
-                      ? Icons.home
-                      : Icons.home_outlined,
-                  color: Colors.black,
-                ),
+              icon: Image(
+                image: const AssetImage('assets/images/home.png'),
+                color: (homeC.pressedButton.value == 0)
+                    ? Colors.amber
+                    : Colors.grey,
               ),
-              label: 'Home',
+              label: 'Beranda',
             ),
             BottomNavigationBarItem(
-              icon: Obx(
-                () => Icon(
-                  (homeC.pressedButton.value == 1)
-                      ? Icons.store
-                      : Icons.store_outlined,
-                  color: Colors.black,
-                ),
+              icon: Image(
+                image: const AssetImage('assets/images/location.png'),
+                color: (homeC.pressedButton.value == 1)
+                    ? Colors.amber
+                    : Colors.grey,
               ),
-              label: 'Toko',
+              label: 'Presensi',
             ),
             BottomNavigationBarItem(
-              icon: Obx(
-                () => Icon(
-                  (homeC.pressedButton.value == 2)
-                      ? Icons.article
-                      : Icons.article_outlined,
-                  color: Colors.black,
-                ),
+              icon: Image(
+                image: const AssetImage('assets/images/task.png'),
+                color: (homeC.pressedButton.value == 2)
+                    ? Colors.amber
+                    : Colors.grey,
               ),
-              label: 'Artikel',
+              label: 'Tugas',
             ),
             BottomNavigationBarItem(
-              icon: Obx(
-                () => Icon(
-                  (homeC.pressedButton.value == 3)
-                      ? Icons.person
-                      : Icons.person_outline,
-                  color: Colors.black,
-                ),
+              icon: Image(
+                image: const AssetImage('assets/images/notif.png'),
+                color: (homeC.pressedButton.value == 3)
+                    ? Colors.amber
+                    : Colors.grey,
               ),
-              label: 'Profile',
+              label: 'Notifikasi',
+            ),
+            BottomNavigationBarItem(
+              icon: Image(
+                image: const AssetImage('assets/images/account.png'),
+                color: (homeC.pressedButton.value == 4)
+                    ? Colors.amber
+                    : Colors.grey,
+              ),
+              label: 'Akun',
             ),
           ],
           currentIndex: homeC.pressedButton.value,
           onTap: homeC.onPressed,
         ),
+      ),
     );
   }
 }
